@@ -1,7 +1,8 @@
 package main
 
 import (
-
+	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -9,8 +10,7 @@ type person struct {
 	First string `json: "first"`
 }
 
-
-func main(){
+func main() {
 	// p1 := person{
 	// 	First: "Jenny",
 	// }
@@ -34,11 +34,18 @@ func main(){
 	http.HandleFunc("/encode", foo)
 	http.HandleFunc("/decode", bar)
 	http.ListenAndServe(":8080", nil)
+}
+func foo(w http.ResponseWriter, r *http.Request) {
+	p1 := person{
+		First: "Jenny",
 	}
-	func foo(w http.ResponseWriter, r *http.Request){
-
+	err := json.NewEncoder(w).Encode(p1)
+	if err != nil{
+		log.Println("Encode bad data", err)
 	}
 
-	func bar(w http.ResponseWriter, r *http.Request){
+}
 
-	}
+func bar(w http.ResponseWriter, r *http.Request) {
+
+}
